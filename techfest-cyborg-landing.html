@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TECHFEST 2025 | Campus Ambassador | IIT Bombay</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cyan: #00f5ff;
+    --electric-blue: #0080ff;
+    --neon-green: #39ff14;
+    --crimson: #ff003c;
+    --gold: #ffd700;
+    --dark: #020810;
+    --darker: #010508;
+    --panel: rgba(0, 245, 255, 0.04);
+    --border: rgba(0, 245, 255, 0.2);
+    --glow: 0 0 20px rgba(0,245,255,0.4), 0 0 60px rgba(0,245,255,0.1);
+    --glow-strong: 0 0 30px rgba(0,245,255,0.8), 0 0 80px rgba(0,245,255,0.3);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: #c8e8ff;
+    font-family: 'Exo 2', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--cyan);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: transform 0.1s ease, width 0.2s, height 0.2s;
+    box-shadow: var(--glow);
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(0,245,255,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: transform 0.15s ease, width 0.3s, height 0.3s, border-color 0.3s;
+  }
+
+  /* SCANLINE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 2px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
+    animation: scanlines 8s linear infinite;
+  }
+  @keyframes scanlines {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 100px; }
+  }
+
+  /* GRID BG */
+  .grid-bg {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+    animation: gridPulse 4s ease-in-out infinite;
+  }
+  @keyframes gridPulse {
+    0%,100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  /* FLOATING PARTICLES */
+  .particles { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+  .particle {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: var(--cyan);
+    border-radius: 50%;
+    animation: float var(--dur, 8s) var(--delay, 0s) linear infinite;
+    opacity: 0;
+    box-shadow: 0 0 6px var(--cyan);
+  }
+  @keyframes float {
+    0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-20px) translateX(var(--drift, 30px)); opacity: 0; }
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 16px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(2,8,16,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Orbitron', monospace;
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--cyan);
+    letter-spacing: 4px;
+    text-shadow: var(--glow);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--crimson); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: rgba(200,232,255,0.6);
+    text-decoration: none;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.3s, text-shadow 0.3s;
+  }
+  .nav-links a:hover { color: var(--cyan); text-shadow: var(--glow); }
+  .nav-cta {
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 10px 24px;
+    background: transparent;
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+    cursor: none;
+    text-decoration: none;
+    transition: all 0.3s;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+  .nav-cta:hover {
+    background: var(--cyan);
+    color: var(--dark);
+    box-shadow: var(--glow-strong);
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    overflow: hidden;
+    padding: 100px 40px 60px;
+  }
+
+  /* Cyborg face silhouette */
+  .hero-bg-art {
+    position: absolute;
+    right: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 55vw;
+    max-width: 800px;
+    opacity: 0.07;
+    pointer-events: none;
+  }
+
+  .hero-orb {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(0,128,255,0.15) 0%, transparent 70%);
+    right: 10%;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    animation: orbPulse 3s ease-in-out infinite;
+  }
+  @keyframes orbPulse {
+    0%,100% { transform: translateY(-50%) scale(1); opacity: 0.6; }
+    50% { transform: translateY(-50%) scale(1.08); opacity: 1; }
+  }
+
+  .hero-content { position: relative; max-width: 700px; z-index: 2; }
+
+  .hero-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: fadeSlideIn 0.8s ease both;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 40px; height: 1px;
+    background: var(--cyan);
+    box-shadow: var(--glow);
+  }
+  .tag-badge {
+    background: rgba(0,245,255,0.1);
+    border: 1px solid rgba(0,245,255,0.3);
+    padding: 4px 12px;
+    font-size: 10px;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    animation: blink 2s step-end infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  .hero-title {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(48px, 7vw, 90px);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -2px;
+    margin-bottom: 8px;
+    animation: fadeSlideIn 0.8s 0.2s ease both;
+  }
+  .hero-title .line1 { color: #ffffff; display: block; }
+  .hero-title .line2 {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--cyan);
+    display: block;
+    text-shadow: none;
+    filter: drop-shadow(0 0 20px var(--cyan));
+  }
+  .hero-title .line3 {
+    color: var(--crimson);
+    display: block;
+    text-shadow: 0 0 40px rgba(255,0,60,0.5);
+    font-size: 0.45em;
+    letter-spacing: 8px;
+    font-weight: 500;
+    margin-top: 8px;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(200,232,255,0.7);
+    margin: 28px 0 40px;
+    max-width: 520px;
+    animation: fadeSlideIn 0.8s 0.4s ease both;
+    border-left: 2px solid var(--cyan);
+    padding-left: 20px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    animation: fadeSlideIn 0.8s 0.6s ease both;
+  }
+  .btn-primary {
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 16px 40px;
+    background: var(--cyan);
+    color: var(--dark);
+    border: none;
+    cursor: none;
+    text-decoration: none;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.5s;
+  }
+  .btn-primary:hover::after { transform: translateX(100%); }
+  .btn-primary:hover { box-shadow: var(--glow-strong); transform: translateY(-2px); }
+
+  .btn-secondary {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 2px;
+    padding: 16px 36px;
+    background: transparent;
+    color: rgba(200,232,255,0.8);
+    border: 1px solid rgba(200,232,255,0.2);
+    cursor: none;
+    text-decoration: none;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    transition: all 0.3s;
+    display: inline-block;
+  }
+  .btn-secondary:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+    background: rgba(0,245,255,0.05);
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    position: relative;
+    z-index: 2;
+    background: rgba(0,245,255,0.04);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 80px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .stat-item {
+    text-align: center;
+    position: relative;
+    padding: 0 20px;
+  }
+  .stat-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 10%;
+    height: 80%;
+    width: 1px;
+    background: var(--border);
+  }
+  .stat-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--cyan);
+    text-shadow: var(--glow);
+    display: block;
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: rgba(200,232,255,0.5);
+    text-transform: uppercase;
+    margin-top: 6px;
+    display: block;
+  }
+
+  /* SECTION BASE */
+  section {
+    position: relative;
+    z-index: 2;
+    padding: 100px 80px;
+  }
+
+  .section-header {
+    margin-bottom: 60px;
+  }
+  .section-eyebrow {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 5px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-eyebrow::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 1px;
+    background: var(--cyan);
+    opacity: 0.5;
+  }
+  .section-title {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1.1;
+    letter-spacing: -1px;
+  }
+  .section-title span { color: var(--cyan); }
+
+  /* ABOUT / MISSION */
+  .mission-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .mission-text p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: rgba(200,232,255,0.7);
+    margin-bottom: 20px;
+  }
+  .mission-visual {
+    position: relative;
+    height: 400px;
+  }
+
+  /* CYBORG SVG */
+  .cyborg-svg-wrap {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* BENEFITS */
+  .benefits-section { background: rgba(0,245,255,0.02); }
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .benefit-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 36px 28px;
+    position: relative;
+    transition: all 0.4s;
+    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+    overflow: hidden;
+  }
+  .benefit-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 20px; height: 20px;
+    border-top: 1px solid var(--cyan);
+    border-right: 1px solid var(--cyan);
+    opacity: 0.5;
+    transition: opacity 0.3s;
+  }
+  .benefit-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,245,255,0.05), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .benefit-card:hover {
+    border-color: var(--cyan);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,245,255,0.1), inset 0 0 30px rgba(0,245,255,0.03);
+  }
+  .benefit-card:hover::after { opacity: 1; }
+  .benefit-card:hover::before { opacity: 1; }
+
+  .benefit-icon {
+    font-size: 36px;
+    margin-bottom: 20px;
+    display: block;
+    filter: drop-shadow(0 0 8px var(--cyan));
+  }
+  .benefit-num {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: rgba(0,245,255,0.4);
+    position: absolute;
+    top: 20px; right: 28px;
+  }
+  .benefit-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+  .benefit-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(200,232,255,0.6);
+  }
+
+  /* HOW IT WORKS */
+  .timeline {
+    position: relative;
+    padding-left: 60px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 18px; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--cyan), transparent);
+  }
+  .timeline-step {
+    position: relative;
+    padding: 0 0 60px 40px;
+    opacity: 0;
+    animation: fadeSlideIn 0.6s ease both;
+  }
+  .timeline-step:nth-child(1) { animation-delay: 0.1s; }
+  .timeline-step:nth-child(2) { animation-delay: 0.25s; }
+  .timeline-step:nth-child(3) { animation-delay: 0.4s; }
+  .timeline-step:nth-child(4) { animation-delay: 0.55s; }
+
+  .step-dot {
+    position: absolute;
+    left: -51px; top: 4px;
+    width: 20px; height: 20px;
+    border: 2px solid var(--cyan);
+    background: var(--dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--glow);
+  }
+  .step-dot::after {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--cyan);
+    border-radius: 50%;
+  }
+  .step-num {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--cyan);
+    margin-bottom: 8px;
+  }
+  .step-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  .step-desc {
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba(200,232,255,0.65);
+    max-width: 500px;
+  }
+
+  /* PERKS */
+  .perks-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .perk-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    font-size: 14px;
+    color: rgba(200,232,255,0.8);
+    transition: all 0.3s;
+  }
+  .perk-item:hover {
+    border-color: var(--cyan);
+    color: #fff;
+    background: rgba(0,245,255,0.06);
+  }
+  .perk-icon { font-size: 20px; flex-shrink: 0; }
+  .perk-check {
+    width: 18px; height: 18px;
+    border: 1px solid var(--neon-green);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--neon-green);
+    font-size: 11px;
+    flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(57,255,20,0.3);
+  }
+
+  /* CTA SECTION */
+  .cta-section {
+    background: linear-gradient(135deg, rgba(0,128,255,0.08), rgba(0,245,255,0.04));
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    padding: 120px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: 'JOIN NOW';
+    position: absolute;
+    font-family: 'Orbitron', monospace;
+    font-size: 200px;
+    font-weight: 900;
+    color: rgba(0,245,255,0.025);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: 20px;
+  }
+  .cta-title {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(32px, 5vw, 64px);
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 20px;
+    line-height: 1.1;
+  }
+  .cta-title span { color: var(--cyan); text-shadow: var(--glow); }
+  .cta-sub {
+    font-size: 16px;
+    color: rgba(200,232,255,0.6);
+    margin-bottom: 48px;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 2px;
+  }
+  .countdown {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+  }
+  .count-unit {
+    text-align: center;
+    min-width: 80px;
+  }
+  .count-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--cyan);
+    text-shadow: var(--glow-strong);
+    display: block;
+    line-height: 1;
+  }
+  .count-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: rgba(200,232,255,0.4);
+    text-transform: uppercase;
+    margin-top: 8px;
+    display: block;
+  }
+  .count-sep {
+    font-family: 'Orbitron', monospace;
+    font-size: 40px;
+    color: var(--cyan);
+    opacity: 0.3;
+    align-self: flex-start;
+    padding-top: 4px;
+    animation: blink 1s step-end infinite;
+  }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 2;
+    padding: 40px 80px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .footer-logo {
+    font-family: 'Orbitron', monospace;
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--cyan);
+    text-shadow: var(--glow);
+  }
+  .footer-logo span { color: var(--crimson); }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: rgba(200,232,255,0.4);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--cyan); }
+  .footer-copy {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: rgba(200,232,255,0.2);
+  }
+
+  /* TICKER */
+  .ticker-wrap {
+    position: relative;
+    z-index: 2;
+    background: var(--cyan);
+    padding: 10px 0;
+    overflow: hidden;
+  }
+  .ticker-inner {
+    display: flex;
+    gap: 60px;
+    white-space: nowrap;
+    animation: ticker 20s linear infinite;
+  }
+  .ticker-item {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--dark);
+    text-transform: uppercase;
+  }
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* TECH SPEC LINES */
+  .spec-lines {
+    position: absolute;
+    pointer-events: none;
+  }
+
+  /* GLITCH EFFECT */
+  .glitch {
+    position: relative;
+  }
+  .glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0;
+    opacity: 0;
+  }
+  .glitch:hover::before {
+    opacity: 0.6;
+    color: var(--crimson);
+    clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+    animation: glitch1 0.3s steps(2) once;
+  }
+  .glitch:hover::after {
+    opacity: 0.6;
+    color: var(--cyan);
+    clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+    animation: glitch2 0.3s steps(2) once;
+    animation-delay: 0.1s;
+  }
+  @keyframes glitch1 {
+    0% { transform: translateX(4px); }
+    50% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+  }
+  @keyframes glitch2 {
+    0% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+    100% { transform: translateX(0); }
+  }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* CIRCUIT LINES DECORATION */
+  .circuit-deco {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0.15;
+  }
+
+  /* HEX GRID */
+  .hex-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='52' viewBox='0 0 60 52'%3E%3Cpolygon points='30,1 59,17 59,35 30,51 1,35 1,17' fill='none' stroke='rgba(0,245,255,0.06)' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 60px 52px;
+    pointer-events: none;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--darker); }
+  ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 2px; }
+
+  /* CORNER DECORATIONS */
+  .corner-tl, .corner-br {
+    position: absolute;
+    width: 40px; height: 40px;
+    pointer-events: none;
+    opacity: 0.4;
+  }
+  .corner-tl { top: 20px; left: 20px; border-top: 2px solid var(--cyan); border-left: 2px solid var(--cyan); }
+  .corner-br { bottom: 20px; right: 20px; border-bottom: 2px solid var(--cyan); border-right: 2px solid var(--cyan); }
+
+  /* NEON DIVIDER */
+  .neon-div {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    margin: 0;
+    box-shadow: var(--glow);
+  }
+
+  /* Scan animation for cards */
+  .scan-card {
+    position: relative;
+    overflow: hidden;
+  }
+  .scan-card::after {
+    content: '';
+    position: absolute;
+    left: 0; top: -100%;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    opacity: 0;
+    transition: none;
+  }
+  .scan-card:hover::after {
+    animation: scanDown 0.6s ease;
+  }
+  @keyframes scanDown {
+    0% { top: -3px; opacity: 0.8; }
+    100% { top: 100%; opacity: 0; }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    section { padding: 70px 24px; }
+    nav { padding: 14px 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 100px 24px 60px; }
+    .mission-grid { grid-template-columns: 1fr; }
+    .mission-visual { height: 280px; }
+    .benefits-grid { grid-template-columns: 1fr; }
+    .perks-list { grid-template-columns: 1fr; }
+    .stats-bar { padding: 24px; }
+    footer { padding: 30px 24px; flex-direction: column; align-items: flex-start; }
+    .cta-section { padding: 80px 24px; }
+    .cta-section::before { font-size: 80px; }
+  }
+
+  /* TYPEWRITER */
+  .typewriter {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 3s steps(30, end) both, blinkCursor 0.75s step-end infinite;
+    border-right: 2px solid var(--cyan);
+    max-width: fit-content;
+  }
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+  @keyframes blinkCursor {
+    from, to { border-color: transparent; }
+    50% { border-color: var(--cyan); }
+  }
+
+  /* STATUS BADGE */
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(57,255,20,0.1);
+    border: 1px solid rgba(57,255,20,0.3);
+    padding: 6px 16px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--neon-green);
+    margin-bottom: 20px;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    background: var(--neon-green);
+    border-radius: 50%;
+    animation: pulse-dot 1.5s ease-in-out infinite;
+    box-shadow: 0 0 6px var(--neon-green);
+  }
+  @keyframes pulse-dot {
+    0%,100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.5; }
+  }
+
+  /* ENERGY BAR */
+  .energy-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .e-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .e-bar-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: rgba(200,232,255,0.5);
+    width: 120px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .e-bar-track {
+    flex: 1;
+    height: 4px;
+    background: rgba(0,245,255,0.1);
+    border: 1px solid rgba(0,245,255,0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  .e-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--electric-blue), var(--cyan));
+    box-shadow: 0 0 8px var(--cyan);
+    width: 0;
+    animation: fillBar 1.5s ease-out forwards;
+    animation-delay: var(--delay, 0s);
+  }
+  @keyframes fillBar {
+    to { width: var(--pct, 80%); }
+  }
+  .e-bar-pct {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--cyan);
+    width: 36px;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- GRID BACKGROUND -->
+<div class="grid-bg"></div>
+
+<!-- PARTICLES -->
+<div class="particles" id="particles"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">TECH<span>FEST</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">Mission</a></li>
+    <li><a href="#benefits">Benefits</a></li>
+    <li><a href="#process">Protocol</a></li>
+    <li><a href="#perks">Upgrades</a></li>
+  </ul>
+  <a class="nav-cta" href="https://ca.techfest.org" target="_blank">INITIALIZE</a>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker-wrap" style="position:relative;z-index:3;margin-top:60px;">
+  <div class="ticker-inner" id="ticker"></div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-orb"></div>
+
+  <!-- Cyborg SVG Art -->
+  <div class="hero-bg-art">
+    <svg viewBox="0 0 600 700" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <!-- Head outline -->
+      <ellipse cx="300" cy="220" rx="140" ry="160" stroke="#00f5ff" stroke-width="1.5"/>
+      <!-- Circuit patterns on face -->
+      <line x1="220" y1="220" x2="160" y2="220" stroke="#00f5ff" stroke-width="1"/>
+      <line x1="160" y1="220" x2="160" y2="180" stroke="#00f5ff" stroke-width="1"/>
+      <line x1="160" y1="180" x2="140" y2="180" stroke="#00f5ff" stroke-width="1"/>
+      <circle cx="140" cy="180" r="4" fill="#00f5ff"/>
+      <line x1="380" y1="220" x2="440" y2="220" stroke="#00f5ff" stroke-width="1"/>
+      <line x1="440" y1="220" x2="440" y2="180" stroke="#00f5ff" stroke-width="1"/>
+      <line x1="440" y1="180" x2="460" y2="180" stroke="#00f5ff" stroke-width="1"/>
+      <circle cx="460" cy="180" r="4" fill="#00f5ff"/>
+      <!-- Eyes -->
+      <rect x="230" y="195" width="60" height="22" rx="2" stroke="#00f5ff" stroke-width="1.5"/>
+      <rect x="235" y="200" width="50" height="12" fill="#00f5ff" opacity="0.3"/>
+      <line x1="260" y1="195" x2="260" y2="217" stroke="#00f5ff" stroke-width="0.5"/>
+      <rect x="310" y="195" width="60" height="22" rx="2" stroke="#00f5ff" stroke-width="1.5"/>
+      <rect x="315" y="200" width="50" height="12" fill="#00f5ff" opacity="0.3"/>
+      <line x1="340" y1="195" x2="340" y2="217" stroke="#00f5ff" stroke-width="0.5"/>
+      <!-- Nose -->
+      <line x1="300" y1="225" x2="300" y2="255" stroke="#00f5ff" stroke-width="1" opacity="0.5"/>
+      <line x1="285" y1="255" x2="315" y2="255" stroke="#00f5ff" stroke-width="1" opacity="0.5"/>
+      <!-- Mouth / interface -->
+      <rect x="250" y="275" width="100" height="14" rx="2" stroke="#00f5ff" stroke-width="1"/>
+      <line x1="265" y1="282" x2="275" y2="282" stroke="#00f5ff" stroke-width="2"/>
+      <line x1="280" y1="282" x2="320" y2="282" stroke="#00f5ff" stroke-width="2" opacity="0.5"/>
+      <rect x="327" y="278" width="10" height="8" stroke="#00f5ff" stroke-width="1"/>
+      <!-- Neck -->
+      <line x1="270" y1="380" x2="270" y2="430" stroke="#00f5ff" stroke-width="1.5"/>
+      <line x1="330" y1="380" x2="330" y2="430" stroke="#00f5ff" stroke-width="1.5"/>
+      <line x1="270" y1="400" x2="330" y2="400" stroke="#00f5ff" stroke-width="1"/>
+      <line x1="270" y1="415" x2="330" y2="415" stroke="#00f5ff" stroke-width="1"/>
+      <!-- Shoulders -->
+      <path d="M270 430 L160 480 L140 560" stroke="#00f5ff" stroke-width="1.5"/>
+      <path d="M330 430 L440 480 L460 560" stroke="#00f5ff" stroke-width="1.5"/>
+      <!-- Chest panel -->
+      <rect x="210" y="480" width="180" height="120" rx="4" stroke="#00f5ff" stroke-width="1"/>
+      <rect x="225" y="496" width="60" height="30" rx="2" stroke="#00f5ff" stroke-width="1"/>
+      <rect x="315" y="496" width="60" height="30" rx="2" stroke="#00f5ff" stroke-width="1"/>
+      <line x1="210" y1="545" x2="390" y2="545" stroke="#00f5ff" stroke-width="0.5"/>
+      <line x1="225" y1="560" x2="375" y2="560" stroke="#00f5ff" stroke-width="0.5"/>
+      <!-- Data lines -->
+      <line x1="160" y1="350" x2="100" y2="350" stroke="#00f5ff" stroke-width="1"/>
+      <line x1="100" y1="350" x2="100" y2="420" stroke="#00f5ff" stroke-width="1"/>
+      <circle cx="100" cy="430" r="8" stroke="#00f5ff" stroke-width="1"/>
+      <line x1="440" y1="350" x2="500" y2="350" stroke="#00f5ff" stroke-width="1"/>
+      <line x1="500" y1="350" x2="500" y2="420" stroke="#00f5ff" stroke-width="1"/>
+      <circle cx="500" cy="430" r="8" stroke="#00f5ff" stroke-width="1"/>
+      <!-- Scanning line animation on cyborg -->
+      <rect x="161" y="100" width="278" height="2" fill="#00f5ff" opacity="0.6">
+        <animateTransform attributeName="transform" type="translate" values="0,0;0,280;0,0" dur="3s" repeatCount="indefinite"/>
+      </rect>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <div class="status-badge">
+      <div class="status-dot"></div>
+      REGISTRATION ACTIVE — 2025
+    </div>
+    <div class="hero-tag">
+      <span class="tag-badge">IIT BOMBAY</span>
+      ASIA'S LARGEST TECH FESTIVAL
+    </div>
+    <h1 class="hero-title glitch" data-text="BECOME">
+      <span class="line1">BECOME</span>
+      <span class="line2">CYBORG</span>
+      <span class="line3">CAMPUS AMBASSADOR</span>
+    </h1>
+    <p class="hero-sub">
+      Augment yourself with Techfest IIT Bombay's Campus Ambassador Program — where human potential meets technological evolution. Represent Asia's largest science festival at your campus.
+    </p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="https://ca.techfest.org" target="_blank">INITIALIZE PROTOCOL</a>
+      <a class="btn-secondary" href="#about">SYSTEM OVERVIEW</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <span class="stat-num" data-target="180000">0</span>
+    <span class="stat-label">Annual Footfall</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num" data-target="28">0</span>
+    <span class="stat-label">Years Running</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num" data-target="5000">0</span>
+    <span class="stat-label">Campus Ambassadors</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num" data-target="120">0</span>
+    <span class="stat-label">Countries Reached</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header">
+    <div class="section-eyebrow">MISSION BRIEF</div>
+    <h2 class="section-title">Human + Machine<br><span>Synergy Protocol</span></h2>
+  </div>
+  <div class="mission-grid">
+    <div class="mission-text">
+      <p>The Techfest IIT Bombay Campus Ambassador Program is the premier gateway to becoming part of Asia's most iconic science and technology festival. As a CA, you are not just a promoter — you are a <strong style="color:var(--cyan)">node in a vast intelligence network</strong>, connecting minds across India.</p>
+      <p>Every ambassador is an interface between Techfest and the world — carrying the spirit of innovation, robotics, AI, and human ingenuity to their campus and beyond. You don't just participate. You <strong style="color:var(--cyan)">transform</strong>.</p>
+      <p>Join thousands of students who have already augmented their career trajectory through the Techfest CA experience — from IIT Bombay's prestigious platform to the global tech stage.</p>
+
+      <div class="energy-bars">
+        <div class="e-bar-row">
+          <span class="e-bar-label">LEADERSHIP</span>
+          <div class="e-bar-track"><div class="e-bar-fill" style="--pct:92%;--delay:0.2s"></div></div>
+          <span class="e-bar-pct">92%</span>
+        </div>
+        <div class="e-bar-row">
+          <span class="e-bar-label">NETWORKING</span>
+          <div class="e-bar-track"><div class="e-bar-fill" style="--pct:88%;--delay:0.4s"></div></div>
+          <span class="e-bar-pct">88%</span>
+        </div>
+        <div class="e-bar-row">
+          <span class="e-bar-label">INNOVATION</span>
+          <div class="e-bar-track"><div class="e-bar-fill" style="--pct:97%;--delay:0.6s"></div></div>
+          <span class="e-bar-pct">97%</span>
+        </div>
+        <div class="e-bar-row">
+          <span class="e-bar-label">CAREER BOOST</span>
+          <div class="e-bar-track"><div class="e-bar-fill" style="--pct:85%;--delay:0.8s"></div></div>
+          <span class="e-bar-pct">85%</span>
+        </div>
+      </div>
+    </div>
+    <div class="mission-visual">
+      <div class="cyborg-svg-wrap">
+        <svg viewBox="0 0 400 400" width="360" height="360" xmlns="http://www.w3.org/2000/svg" fill="none">
+          <!-- Outer rings -->
+          <circle cx="200" cy="200" r="180" stroke="rgba(0,245,255,0.1)" stroke-width="1"/>
+          <circle cx="200" cy="200" r="150" stroke="rgba(0,245,255,0.15)" stroke-width="1" stroke-dasharray="4 8"/>
+          <circle cx="200" cy="200" r="120" stroke="rgba(0,245,255,0.2)" stroke-width="1"/>
+          <!-- Rotating ring -->
+          <circle cx="200" cy="200" r="165" stroke="rgba(0,245,255,0.08)" stroke-width="1" stroke-dasharray="20 10">
+            <animateTransform attributeName="transform" type="rotate" values="0 200 200;360 200 200" dur="15s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="200" cy="200" r="135" stroke="rgba(0,128,255,0.15)" stroke-width="1" stroke-dasharray="8 16">
+            <animateTransform attributeName="transform" type="rotate" values="360 200 200;0 200 200" dur="10s" repeatCount="indefinite"/>
+          </circle>
+          <!-- Core -->
+          <circle cx="200" cy="200" r="60" fill="rgba(0,245,255,0.04)" stroke="rgba(0,245,255,0.4)" stroke-width="2"/>
+          <circle cx="200" cy="200" r="40" fill="rgba(0,128,255,0.08)" stroke="rgba(0,128,255,0.4)" stroke-width="1.5">
+            <animate attributeName="r" values="40;44;40" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="200" cy="200" r="20" fill="rgba(0,245,255,0.15)">
+            <animate attributeName="opacity" values="0.5;1;0.5" dur="1.5s" repeatCount="indefinite"/>
+          </circle>
+          <!-- Crosshair -->
+          <line x1="200" y1="30" x2="200" y2="80" stroke="rgba(0,245,255,0.4)" stroke-width="1.5"/>
+          <line x1="200" y1="320" x2="200" y2="370" stroke="rgba(0,245,255,0.4)" stroke-width="1.5"/>
+          <line x1="30" y1="200" x2="80" y2="200" stroke="rgba(0,245,255,0.4)" stroke-width="1.5"/>
+          <line x1="320" y1="200" x2="370" y2="200" stroke="rgba(0,245,255,0.4)" stroke-width="1.5"/>
+          <!-- Corner ticks -->
+          <line x1="52" y1="73" x2="68" y2="89" stroke="rgba(0,245,255,0.3)" stroke-width="1"/>
+          <line x1="348" y1="73" x2="332" y2="89" stroke="rgba(0,245,255,0.3)" stroke-width="1"/>
+          <line x1="52" y1="327" x2="68" y2="311" stroke="rgba(0,245,255,0.3)" stroke-width="1"/>
+          <line x1="348" y1="327" x2="332" y2="311" stroke="rgba(0,245,255,0.3)" stroke-width="1"/>
+          <!-- Data nodes -->
+          <circle cx="200" cy="50" r="5" fill="none" stroke="var(--cyan)" stroke-width="1.5"/>
+          <circle cx="200" cy="350" r="5" fill="none" stroke="var(--cyan)" stroke-width="1.5"/>
+          <circle cx="50" cy="200" r="5" fill="none" stroke="var(--cyan)" stroke-width="1.5"/>
+          <circle cx="350" cy="200" r="5" fill="none" stroke="var(--cyan)" stroke-width="1.5"/>
+          <!-- Pulsing outer -->
+          <circle cx="200" cy="200" r="190" stroke="rgba(0,245,255,0.05)" stroke-width="4">
+            <animate attributeName="r" values="190;200;190" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="1;0;1" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <!-- TEXT -->
+          <text x="200" y="204" font-family="Orbitron,monospace" font-size="13" fill="rgba(0,245,255,0.8)" text-anchor="middle" letter-spacing="3">ACTIVE</text>
+          <!-- Scanning line -->
+          <line x1="20" y1="200" x2="380" y2="200" stroke="rgba(0,245,255,0.15)" stroke-width="1">
+            <animateTransform attributeName="transform" type="rotate" values="0 200 200;360 200 200" dur="4s" repeatCount="indefinite"/>
+          </line>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="neon-div"></div>
+
+<!-- BENEFITS -->
+<section class="benefits-section" id="benefits">
+  <div class="section-header">
+    <div class="section-eyebrow">SYSTEM UPGRADES</div>
+    <h2 class="section-title">What You'll<br><span>Gain Access To</span></h2>
+  </div>
+  <div class="benefits-grid">
+    <div class="benefit-card scan-card">
+      <span class="benefit-num">01</span>
+      <span class="benefit-icon">🏆</span>
+      <div class="benefit-title">IIT BOMBAY CERTIFICATE</div>
+      <p class="benefit-desc">Earn an official certificate from Techfest IIT Bombay — recognized by top companies and institutions across India and globally.</p>
+    </div>
+    <div class="benefit-card scan-card">
+      <span class="benefit-num">02</span>
+      <span class="benefit-icon">💼</span>
+      <div class="benefit-title">INTERNSHIP ACCESS</div>
+      <p class="benefit-desc">Unlock multiple internship opportunities with top companies through the Techfest network. Real-world exposure starts here.</p>
+    </div>
+    <div class="benefit-card scan-card">
+      <span class="benefit-num">03</span>
+      <span class="benefit-icon">🌐</span>
+      <div class="benefit-title">ELITE NETWORK</div>
+      <p class="benefit-desc">Connect with IIT Bombay students, alumni, industry professionals and fellow ambassadors across 100+ cities.</p>
+    </div>
+    <div class="benefit-card scan-card">
+      <span class="benefit-num">04</span>
+      <span class="benefit-icon">🎤</span>
+      <div class="benefit-title">LEADERSHIP PLATFORM</div>
+      <p class="benefit-desc">Develop your leadership, management, and communication capabilities by running campus-level events and initiatives.</p>
+    </div>
+    <div class="benefit-card scan-card">
+      <span class="benefit-num">05</span>
+      <span class="benefit-icon">🚀</span>
+      <div class="benefit-title">TECHFEST PRIORITY ACCESS</div>
+      <p class="benefit-desc">Get priority passes, backstage access, and exclusive invitations to Techfest 2025 — 3 days, December 22–24 at IIT Bombay.</p>
+    </div>
+    <div class="benefit-card scan-card">
+      <span class="benefit-num">06</span>
+      <span class="benefit-icon">🧠</span>
+      <div class="benefit-title">SKILL AUGMENTATION</div>
+      <p class="benefit-desc">Hands-on experience in marketing, operations, event management, and tech promotion — the complete ambassador toolkit.</p>
+    </div>
+  </div>
+</section>
+
+<div class="neon-div"></div>
+
+<!-- HOW IT WORKS -->
+<section id="process">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;">
+    <div>
+      <div class="section-header">
+        <div class="section-eyebrow">MISSION PROTOCOL</div>
+        <h2 class="section-title">Your <span>Activation</span><br>Sequence</h2>
+      </div>
+      <div class="timeline">
+        <div class="timeline-step">
+          <div class="step-dot"></div>
+          <div class="step-num">PHASE 01</div>
+          <div class="step-title">REGISTER</div>
+          <p class="step-desc">Sign up at ca.techfest.org. Open to all college students — no prior experience required. Submit your application today.</p>
+        </div>
+        <div class="timeline-step">
+          <div class="step-dot"></div>
+          <div class="step-num">PHASE 02</div>
+          <div class="step-title">ONBOARD</div>
+          <p class="step-desc">Receive your official CA kit, access to the ambassador dashboard, WhatsApp groups, and training resources from Team Techfest.</p>
+        </div>
+        <div class="timeline-step">
+          <div class="step-dot"></div>
+          <div class="step-num">PHASE 03</div>
+          <div class="step-title">EXECUTE</div>
+          <p class="step-desc">Complete tasks: promote Techfest events, recruit participants, organize campus workshops and competitions.</p>
+        </div>
+        <div class="timeline-step">
+          <div class="step-dot"></div>
+          <div class="step-num">PHASE 04</div>
+          <div class="step-title">ASCEND</div>
+          <p class="step-desc">Top performers earn certificates, internships, and the ultimate prize — attending Techfest 2025 at IIT Bombay.</p>
+        </div>
+      </div>
+    </div>
+    <div id="perks">
+      <div class="section-header">
+        <div class="section-eyebrow">SYSTEM PERKS</div>
+        <h2 class="section-title">Ambassador<br><span>Unlockables</span></h2>
+      </div>
+      <div class="perks-list">
+        <div class="perk-item">
+          <div class="perk-check">✓</div>
+          <span>Certificate from IIT Bombay</span>
+        </div>
+        <div class="perk-item">
+          <div class="perk-check">✓</div>
+          <span>Letter of Recommendation</span>
+        </div>
+        <div class="perk-item">
+          <div class="perk-check">✓</div>
+          <span>Internship Opportunities</span>
+        </div>
+        <div class="perk-item">
+          <div class="perk-check">✓</div>
+          <span>Techfest Merchandise</span>
+        </div>
+        <div class="perk-item">
+          <div class="perk-check">✓</div>
+          <span>Cash Prizes & Rewards</span>
+        </div>
+        <div class="perk-item">
+          <div class="perk-check">✓</div>
+          <span>Social Media Features</span>
+        </div>
+        <div class="perk-item">
+          <div class="perk-check">✓</div>
+          <span>Access to IIT Alumni Network</span>
+        </div>
+        <div class="perk-item">
+          <div class="perk-check">✓</div>
+          <span>Free Techfest 2025 Entry</span>
+        </div>
+        <div class="perk-item">
+          <div class="perk-check">✓</div>
+          <span>Exclusive Workshops Access</span>
+        </div>
+        <div class="perk-item">
+          <div class="perk-check">✓</div>
+          <span>Live Projects Experience</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="neon-div"></div>
+
+<!-- CTA SECTION -->
+<section class="cta-section">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <p class="cta-sub">⚡ TECHFEST 2025 — DEC 22–24 — IIT BOMBAY</p>
+  <h2 class="cta-title">Ready to <span>Upgrade</span><br>Your Existence?</h2>
+  <div class="countdown" id="countdown">
+    <div class="count-unit">
+      <span class="count-num" id="cd-days">--</span>
+      <span class="count-label">Days</span>
+    </div>
+    <div class="count-sep">:</div>
+    <div class="count-unit">
+      <span class="count-num" id="cd-hrs">--</span>
+      <span class="count-label">Hours</span>
+    </div>
+    <div class="count-sep">:</div>
+    <div class="count-unit">
+      <span class="count-num" id="cd-min">--</span>
+      <span class="count-label">Minutes</span>
+    </div>
+    <div class="count-sep">:</div>
+    <div class="count-unit">
+      <span class="count-num" id="cd-sec">--</span>
+      <span class="count-label">Seconds</span>
+    </div>
+  </div>
+  <a class="btn-primary" href="https://ca.techfest.org" target="_blank" style="font-size:15px;padding:20px 60px;">
+    BECOME AN AMBASSADOR →
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">TECH<span>FEST</span> <span style="color:rgba(200,232,255,0.3);font-size:12px;font-family:'Share Tech Mono',monospace;letter-spacing:2px;">× IIT BOMBAY</span></div>
+  <div class="footer-links">
+    <a href="https://techfest.org" target="_blank">Website</a>
+    <a href="https://ca.techfest.org" target="_blank">CA Portal</a>
+    <a href="https://ca.techfest.org/contactus" target="_blank">Contact</a>
+  </div>
+  <div class="footer-copy">TECHFEST 2025 · DEC 22–24 · IIT BOMBAY · ASIA'S LARGEST TECH FESTIVAL</div>
+</footer>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+(function animCursor() {
+  rx += (mx - rx) * 0.18;
+  ry += (my - ry) * 0.18;
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animCursor);
+})();
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.width = '20px'; cursor.style.height = '20px';
+    ring.style.width = '60px'; ring.style.height = '60px';
+    ring.style.borderColor = 'rgba(0,245,255,0.8)';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.width = '12px'; cursor.style.height = '12px';
+    ring.style.width = '36px'; ring.style.height = '36px';
+    ring.style.borderColor = 'rgba(0,245,255,0.5)';
+  });
+});
+
+// PARTICLES
+const container = document.getElementById('particles');
+const colors = ['#00f5ff','#0080ff','#39ff14','#ffffff'];
+for (let i = 0; i < 40; i++) {
+  const p = document.createElement('div');
+  p.classList.add('particle');
+  const dur = (Math.random() * 12 + 6).toFixed(1) + 's';
+  const delay = (Math.random() * 15).toFixed(1) + 's';
+  const drift = (Math.random() * 200 - 100).toFixed(0) + 'px';
+  const color = colors[Math.floor(Math.random() * colors.length)];
+  p.style.cssText = `left:${Math.random()*100}%;--dur:${dur};--delay:${delay};--drift:${drift};background:${color};box-shadow:0 0 6px ${color}`;
+  container.appendChild(p);
+}
+
+// TICKER
+const tickerInner = document.getElementById('ticker');
+const msgs = [
+  '⚡ TECHFEST 2025 — DEC 22–24',
+  '🤖 ASIA\'S LARGEST SCIENCE FESTIVAL',
+  '🚀 IIT BOMBAY',
+  '🌐 CAMPUS AMBASSADOR PROGRAM OPEN',
+  '🏆 1.8 LAKH FOOTFALL',
+  '💡 28 YEARS OF INNOVATION',
+  '🎯 REGISTER NOW AT ca.techfest.org',
+  '⚡ TECHFEST 2025 — DEC 22–24',
+  '🤖 ASIA\'S LARGEST SCIENCE FESTIVAL',
+  '🚀 IIT BOMBAY',
+  '🌐 CAMPUS AMBASSADOR PROGRAM OPEN',
+  '🏆 1.8 LAKH FOOTFALL',
+  '💡 28 YEARS OF INNOVATION',
+  '🎯 REGISTER NOW AT ca.techfest.org',
+];
+msgs.forEach(m => {
+  const span = document.createElement('span');
+  span.classList.add('ticker-item');
+  span.textContent = m;
+  tickerInner.appendChild(span);
+});
+
+// COUNTER ANIMATION
+const counters = document.querySelectorAll('[data-target]');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target;
+      const target = parseInt(el.dataset.target);
+      const suffix = target >= 1000 ? (target >= 100000 ? '1.8L+' : target + '+') : target + '+';
+      let current = 0;
+      const step = target / 60;
+      const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        if (target >= 100000) {
+          el.textContent = (current / 100000).toFixed(1) + 'L+';
+        } else if (target >= 1000) {
+          el.textContent = Math.floor(current / 1000) + 'K+';
+        } else {
+          el.textContent = Math.floor(current) + '+';
+        }
+        if (current >= target) clearInterval(timer);
+      }, 30);
+      observer.unobserve(el);
+    }
+  });
+}, { threshold: 0.3 });
+counters.forEach(c => observer.observe(c));
+
+// COUNTDOWN to Techfest 2025 Dec 22
+function updateCountdown() {
+  const target = new Date('2025-12-22T00:00:00+05:30').getTime();
+  const now = Date.now();
+  const diff = target - now;
+  if (diff > 0) {
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-days').textContent = String(d).padStart(2,'0');
+    document.getElementById('cd-hrs').textContent = String(h).padStart(2,'0');
+    document.getElementById('cd-min').textContent = String(m).padStart(2,'0');
+    document.getElementById('cd-sec').textContent = String(s).padStart(2,'0');
+  } else {
+    document.getElementById('countdown').innerHTML = '<div style="font-family:Orbitron,monospace;color:var(--cyan);font-size:24px;letter-spacing:4px;">EVENT IN PROGRESS</div>';
+  }
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// GLITCH RANDOM
+function randomGlitch() {
+  const el = document.querySelector('.hero-title');
+  if (el) {
+    el.style.textShadow = '3px 0 #ff003c, -3px 0 #00f5ff';
+    setTimeout(() => { el.style.textShadow = ''; }, 100);
+  }
+}
+setInterval(randomGlitch, 4000 + Math.random() * 3000);
+</script>
+</body>
+</html>
