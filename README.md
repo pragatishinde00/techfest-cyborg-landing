@@ -14,4 +14,4 @@ A futuristic cyberpunk-themed landing page for Techfest IIT Bombay's Campus Amba
 ## Tech Stack
 - HTML5
 - CSS3 (Animations, Grid, Flexbox)
-- Vanilla JavaScript
+- JavaScript
